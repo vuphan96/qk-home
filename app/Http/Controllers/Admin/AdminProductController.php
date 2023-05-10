@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\AdminProduct;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\AdminProductRequest;
 
 class AdminProductController extends Controller
 {
@@ -17,5 +18,10 @@ class AdminProductController extends Controller
     {
         $dataTmp = '';
         return view('admin.product.add', compact('dataTmp'));
+    }
+    public function postCreateProduct(AdminProductRequest $request)
+    {
+        $data = $request->all();
+        dd($data);
     }
 }

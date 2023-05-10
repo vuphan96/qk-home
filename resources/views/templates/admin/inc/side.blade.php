@@ -1,11 +1,8 @@
 <!-- Sidebar Start -->
 <div class="sidebar">
     <nav class="navbar bg-light navbar-light">
-        {{-- <a href="index.html" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"></i>BLOCK CF</h3>
-        </a> --}}
         <div class="w-100 bg-light" >
-            <h3 class="text-warning text-center"></i>BLOCK CF</h3>
+            <h3 class="text-warning text-center" style="color: black !important">QK HOME</h3>
         </div>
         <div class="d-flex align-items-center mx-3 mb-4 w-75">
             <div class="position-relative">
