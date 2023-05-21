@@ -14,10 +14,16 @@ class AdminCategory extends Model
     public $uarded = [];
     protected $fillable = ['name'];
 
-    public static function getListCategory()
+    public static function getListCategory($dataSearch)
     {
-        $dataCategory = AdminCategory::orderBy('id','DESC')->paginate(10);
-        return $dataCategory;
+        $keyword = $dataSearch['keyword'];
+        $customerList = new AdminCategory();
+        if ($keyword) {
+            $customerList = $customerList->where('name', 'like', '%' . $keyword . '%');
+                // ->orWhere('code', 'like', '%' . $keyword . '%');
+        }
+        $customerList = $customerList->orderBy('id','DESC')->paginate(10);
+        return $customerList;
     }
     // public static function boot()
     // {

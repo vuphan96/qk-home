@@ -11,7 +11,8 @@ class AdminCatController extends Controller
 {
     public function index()
     {
-        $dataTmp = AdminCategory::getListCategory();
+        $dataSearch['keyword'] = request('keyword') ?? '';
+        $dataTmp = AdminCategory::getListCategory($dataSearch);
         return view('admin.cat.index',compact('dataTmp'));
     }
 
@@ -54,13 +55,19 @@ class AdminCatController extends Controller
         }
     }
     public function deleteCategory(Request $request) {
-        $id = $request->id;
-        $result = (new AdminCategory())->destroy($id);
-        Log::info($result);
+        $ids = $request->ids;
+        $arrID = explode(',', $ids);
+        Log::info($arrID);
+
+        $result = (new AdminCategory())->destroy($arrID);
+
         if($result) {
             return response()->json(['error' => 0, 'message' => 'Xóa thành công']);
         } else {
             return response()->json(['error' => 1, 'message' => 'Đã có lỗi xãy ra']);
         }
+    }
+    public function getImport(){
+        return view('admin.cat.import_list_cat');
     }
 }

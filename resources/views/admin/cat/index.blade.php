@@ -18,29 +18,30 @@
                 <div class="top-menu row">
                     <div class="col-sm-8"></div>
                     <div class="col-sm-4">
-                        <form action="" id="button_search">
+                        <form action="{{route('admin.cat.index')}}" id="button_search">
+                            {{-- @csrf --}}
                             <div class="input-group input-group d-flex justify-content-end">
                                 <div>
                                     <input type="text" name="keyword" class="form-control rounded-0"
-                                        placeholder="tìm kiếm" value="">
+                                        placeholder="tìm kiếm" value="{{ $_GET['keyword'] ?? ''}}">
                                 </div>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
-                        </form>'
+                        </form>
                     </div>
                 </div>
                 <div class="row  pt-2 pb-2">
                     {{-- delete list category  --}}
                     <div class="col-sm-4">
-                        <a type="button" class=" btn btn-danger">Xóa</a>
+                        <a type="button" onclick="deleteList()" class=" btn btn-danger">Xóa</a>
                     </div>
                     {{-- file  --}}
                     <div class="col-sm-8 d-flex justify-content-end">
                         <div class="" style="margin-right: 4px"><button type="button" class=" btn btn-success"
                                 data-toggle="modal" data-target="#modalAddCategory">Thêm</button></div>
-                        <div class="" style="margin-right: 4px"><a type="button" class=" btn btn-success">Nhập</a>
+                        <div class="" style="margin-right: 4px"><a href="{{ route('admin.cat.get_import.category')}}" type="button" class=" btn btn-success">Nhập</a>
                         </div>
                         <div class=""><a type="button" class=" btn btn-success">Xuất</a></div>
                     </div>
@@ -63,7 +64,7 @@
                         <tbody>
                             @foreach ($dataTmp as $key => $category)
                                 <tr>
-                                    <td class="text-center"><input name="checkbox-{{ $category->id }}"
+                                    <td class="text-center"><input name="checkbox-{{ $category->id }}" class="grid-row-checkbox" data-id="{{ $category->id }}"
                                             id="checkbox-{{ $category->id }}" type="checkbox" value="{{ $category->id }}">
                                     </td>
                                     <td>{{ $category->name }}</td>
@@ -169,6 +170,7 @@
             </div>
         </div>
         @include('templates.admin.inc.footer')
+    </div>
         <!-- Recent Sales End -->
         <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
         <script type="text/javascript">
@@ -310,25 +312,7 @@
                 }
 
             }
-            // $('#select-all').click(function(event) {
-            //     if (this.checked) {
-            //         // Iterate each checkbox
-            //         $(':checkbox').each(function() {
-            //             this.checked = true;
-            //         });
-            //     } else {
-            //         $(':checkbox').each(function() {
-            //             this.checked = false;
-            //         });
-            //     }
-            // });
 
-            // $('#select-all').click(function(event) {
-            //     var $that = $(this);
-            //     $(':checkbox').each(function() {
-            //         this.checked = $that.is(':checked');
-            //     });
-            // });
 
             $('#select-all').click(function(event) {
                 if (this.checked) {
@@ -337,16 +321,47 @@
                     $(':checkbox').prop('checked', false);
                 }
             });
+            var selectedRows = function () {
+                var selected = [];
+                $('.grid-row-checkbox:checked').each(function(){
+                    selected.push($(this).data('id'));
+                });
 
-            function deleteItem(id) {
-                result = confirm("Bạn chắc chắn xóa mục này");
-                if(result) {
-                    $.ajax({
+                return selected;
+            }
+            function deleteList(){
+                var ids = selectedRows().join();
+                deleteItem(ids);
+            }
+
+            function deleteItem(ids) {
+                    if(ids == ""){
+                        swal({
+                            title: "Vui lòng chọn it nhât 1 bản ghi trước khi xoá đối tượng",
+                            text: "",
+                            type: "warning",
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {} else {}
+                        });
+                        return;
+                    }
+                    swal({
+                        title: "Bạn chắc chắn xóa",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: 'Save',
+                        denyButtonText: `Don't save`,
+                    }).then((result) => {
+                    /* Read more about handling dismissals below */
+                        if (result.value == true) {
+                            $.ajax({
                         type: "POST",
                         url: '{{ route('admin.cat.delete.category') }}',
                         cache: false,
                         data: {
-                            id:id,
+                            ids:ids,
                             _token: '{{ csrf_token() }}',
                         },
                         dataType: 'json',
@@ -384,7 +399,8 @@
                                 });
                         }
                     });
-                }
+                        }
+                    });
 
             }
         </script>

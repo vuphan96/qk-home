@@ -4,6 +4,9 @@
         .text-dark th {
             border-bottom-width: 0px !important;
         }
+        .form-error {
+            color: red;
+        }
     </style>
     <div class="content">
         <!-- Recent Sales Start -->
@@ -11,45 +14,65 @@
             <div class="col-sm-10 col-xl-6">
                 <div class="bg-light rounded h-100 p-4">
                     <h2 class="mb-4">Thêm sản phẩm mới</h2>
-                    <form role="form" action="" method="post">
+                    <form role="form" action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="product_name" class="form-label">Tên sản phẩm</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" value="">
+                            <label for="product_name" class="form-label">Tên sản phẩm &nbsp;<span class="form-error">*</span></label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" value="{{ old('product_name') }}">
+                            <span class="form-text form-error">
+                                {{ $errors->first('product_name') }}
+                            </span>
                         </div>
                         <div class="mb-3">
-                            <label for="product_code" class="form-label">Mã sản phẩm</label>
-                            <input type="text" class="form-control" id="product_code" name="product_code" value="">
+                            <label for="product_code" class="form-label">Mã sản phẩm &nbsp;<span class="form-error">*</span></label>
+                            <input type="text" class="form-control" id="product_code" name="product_code" value="{{ old('product_code') }}">
+                            <i class="fa fa-info-circle"></i> &nbsp; Mã SP gồm ký tự A-Za-z 0-9 -_ !
+                            <br>
+                            <span class="form-text form-error">
+                                {{ $errors->first('product_code') }}
+                            </span>
                         </div>
                         <div class="mb-3">
-                            <label for="price_in" class="form-label">Giá nhập</label>
-                            <input type="number" class="form-control" id="price_in" name="price_in" value="">
+                            <label for="price_in" class="form-label">Giá nhập &nbsp;<span class="form-error">*</span></label>
+                            <input type="number" class="form-control" id="price_in" name="price_in" value="{{ old('price_in') }}">
+                            <span class="form-text form-error">
+                                {{ $errors->first('price_in') }}
+                            </span>
                         </div>
                         <div class="mb-3">
-                            <label for="price_out" class="form-label">Giá bán</label>
-                            <input type="number" class="form-control" id="price_out" name="price_out" value="">
+                            <label for="price_out" class="form-label">Giá bán &nbsp;<span class="form-error">*</span></label>
+                            <input type="number" class="form-control" id="price_out" name="price_out" value="{{ old('price_out') }}">
+                            <span class="form-text form-error">
+                                {{ $errors->first('price_out') }}
+                            </span>
                         </div>
                         <div class="mb-3">
                             <label for="product_image" class="form-label">Hình ảnh</label>
                             <input type="file" class="form-control" id="product_image" name="product_image" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="floatingSelect">Danh mục</label>
+                            <label for="floatingSelect">Danh mục &nbsp;<span class="form-error">*</span></label>
                             <select class="form-select form-select-lg" aria-label=".form-select-lg example" id="cat_id" name="cat_id">
-                                <option selected>Chọn Danh mục</option>
-                                <option value="1">Bàn</option>
-                                <option value="2">Ghế</option>
-                                <option value="3">Tủ</option>
+                                <option disabled selected hidden>Chọn danh mục</option>
+                                @foreach($dataCategory as $itemCat)
+                                    <option value="{{$itemCat->id}}">{{$itemCat->name}}</option>
+                                @endforeach
                             </select>
+                            <span class="form-text form-error">
+                                {{ $errors->first('cat_id') }}
+                            </span>
                         </div>
                         <div class="mb-3">
-                            <label for="floatingSelect">Đơn vị</label>
+                            <label for="floatingSelect">Đơn vị &nbsp;<span class="form-error">*</span></label>
                             <select class="form-select form-select-lg" aria-label=".form-select-lg example" id="product_unit" name="product_unit">
-                                <option selected>chọn đơn vị</option>
+                                <option disabled selected hidden>Chọn đơn vị</option>
                                 <option value="1">Bộ</option>
                                 <option value="2">Cái</option>
                                 <option value="3">Hộp</option>
                             </select>
+                            <span class="form-text form-error">
+                                {{ $errors->first('product_unit') }}
+                            </span>
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="status" name="status" value="1">

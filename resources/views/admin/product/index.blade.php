@@ -28,7 +28,7 @@
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
-                        </form>'
+                        </form>
                     </div>
                 </div>
                 <div class="row  pt-2 pb-2">
@@ -55,7 +55,7 @@
                                         type="checkbox"></th>
                                 <th scope="col">Tên SP</th>
                                 <th scope="col">Mã SP</th>
-                                <th scope="col">Hình</th>
+                                <th scope="col" style="text-align:center">Hình</th>
                                 <th scope="col">Giá nhập</th>
                                 <th scope="col">Giá bán</th>
                                 <th scope="col">Đơn vị</th>
@@ -71,7 +71,7 @@
                                     </td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->code }}</td>
-                                    <td>{{ $product->image }}</td>
+                                    <td style="text-align:center"><img src="Storage/files/{{$product->image}}" alt="product image" title="product image" width="50px" height="50px"></td>
                                     <td>{{ $product->price_in }}</td>
                                     <td>{{ $product->price_out }}</td>
                                     <td>{{ $product->product_unit }}</td>
@@ -104,8 +104,36 @@
 
             </div>
         </div>
+        @if (session('msg'))
+            @php
+                $session_value = session('msg');
+            @endphp
+        @endif
         @include('templates.admin.inc.footer')
         <!-- Recent Sales End -->
         <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-
+        <script>
+            var notice ='<?php echo $session_value ?? '' ;?>';
+            if(notice == 'success') {
+                swal({
+                    title: "Thêm sản phẩm thành công",
+                    text: "",
+                    type: "success",
+                    timer: 2000,
+                },
+                function(isConfirm) {
+                    if (isConfirm) {} else {}
+                });
+            }
+            if (notice == 'error') {
+                swal({
+                    title: "Thất bại",
+                    text: "",
+                    type: "warning",
+                },
+                function(isConfirm) {
+                    if (isConfirm) {} else {}
+                });
+            }
+        </script>
     @endsection

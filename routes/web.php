@@ -24,6 +24,7 @@ Route::prefix('/admin')->group(function(){
         Route::post('/create', [AdminCatController::class, 'postCreateCategory'])->name('admin.cat.create.category');
         Route::post('/update', [AdminCatController::class, 'updateCategory'])->name('admin.cat.update.category');
         Route::post('/delete', [AdminCatController::class, 'deleteCategory'])->name('admin.cat.delete.category');
+        Route::get('/import', [AdminCatController::class, 'getImport'])->name('admin.cat.get_import.category');
     });
     Route::prefix('/product')->group(function(){
         Route::get('/', [AdminProductController::class, 'index'])->name('admin.product.index');
