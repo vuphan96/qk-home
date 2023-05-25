@@ -17,7 +17,7 @@
                     <div class="card-tools d-flex align-items-end">
                         <div class="btn-group float-right mr-5">
                             <a href="{{ route('admin.cat.index') }}" class="btn  btn-flat btn-default"
-                            title="List"><i class="fa fa-list"></i><span class="hidden-xs">Nhập danh mục từ file</span></a>
+                            title="List"><i class="fa fa-list"></i><span class="hidden-xs">Trở lại trang danh sách</span></a>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 </div>
 
 
-                <form action="{{ route('admin.cat.index') }}" method="post" accept-charset="UTF-8"
+                <form action="{{ route('admin.cat.post_import.category') }}" method="post" accept-charset="UTF-8"
                     class="form-horizontal" id="import-excel" enctype="multipart/form-data">
                     @csrf
                     <div class="box-body">
@@ -109,7 +109,8 @@
         storeAsFile: true,
         allowImagePreview: true
     });
-    $('.filepond').on('FilePond:updatefiles', function (e) {
+    $('.filepond').on('FilePond:addfile', function (e) {
+        console.log(e);
         if (e.detail.items.length > 0) {
             $('#button-upload').prop('disabled', false);
         } else {
@@ -123,49 +124,3 @@
     });
 </script>
 @endsection
-{{--
-@push('styles')
-    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"/>
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-          rel="stylesheet"/>
-    <style>
-        .filepond--credits {
-            display: none;
-        }
-    </style>
-@endpush
-
-@push('scripts')
-<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
-<script>
-    $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
-    $.fn.filepond.registerPlugin(FilePondPluginFileValidateType);
-    $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
-    $('#button-upload').prop('disabled', true);
-    $('.filepond').filepond({
-        labelIdle: 'Chọn từ hệ thống hoặc kéo thả file vào <span class="filepond--label-action"> đây</span>',
-        maxFileSize: '10MB',
-        acceptedFileTypes: [
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ],
-        storeAsFile: true,
-        allowImagePreview: true
-    });
-    $('.filepond').on('FilePond:updatefiles', function (e) {
-        if (e.detail.items.length > 0) {
-            $('#button-upload').prop('disabled', false);
-        } else {
-            $('#button-upload').prop('disabled', true);
-        }
-    });
-    $(document).ready(function () {
-        $('#import-excel').submit(function () {
-            $('#loading').show();
-        });
-    });
-</script>
-@endpush --}}

@@ -3,32 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\AdminCategory;
+use App\Models\Admin\AdminUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\LaravelIgnition\FlareMiddleware\AddJobs;
 
-class AdminCatController extends Controller
+class AdminUnitController extends Controller
 {
     public function index()
     {
         $dataSearch['keyword'] = request('keyword') ?? '';
-        $dataTmp = AdminCategory::getListCategory($dataSearch);
-        return view('admin.cat.index',compact('dataTmp'));
+        $dataTmp = AdminUnit::getListUnit($dataSearch);
+        return view('admin.unit.index',compact('dataTmp'));
     }
 
-    public function postCreateCategory(Request $request)
+    public function postCreateUnit(Request $request)
     {
         $data = $request->all();
-        $listNameCat = AdminCategory::get()->pluck('name')->toArray();
-        if(in_array($data['name'], $listNameCat)) {
-            return response()->json(['error' => 1, 'message' => 'Tên danh mục đã tồn tại']);
+        $listNameUnit = AdminUnit::get()->pluck('name')->toArray();
+        if(in_array($data['name'], $listNameUnit)) {
+            return response()->json(['error' => 1, 'message' => 'Tên đơn vị đã tồn tại']);
         }
         $dataInsert = [
             'name' => $data['name'],
-            'status' => $data['status'],
-            'create_by' => 'Admin'
+            'status' => $data['status']
         ];
-        $result = (new AdminCategory())->insert($dataInsert);
+        $result = (new AdminUnit())->insert($dataInsert);
         if($result) {
             return response()->json(['error' => 0, 'message' => 'Thêm thành công']);
         } else {
@@ -36,42 +36,35 @@ class AdminCatController extends Controller
         }
 
     }
-    public function postUpdateCategory(Request $request) {
+    public function postUpdateUnit(Request $request) {
         $data = $request->all();
-        $listNameCat = AdminCategory::whereNot('id', $data['id'])->get()->pluck('name')->toArray();
-        if(in_array($data['name_edit'], $listNameCat)) {
-            return response()->json(['error' => 1, 'message' => 'Tên danh mục đã tồn tại']);
+        $listNameUnit = AdminUnit::whereNot('id', $data['id'])->get()->pluck('name')->toArray();
+        if(in_array($data['name_edit'], $listNameUnit)) {
+            return response()->json(['error' => 1, 'message' => 'Tên đơn vị đã tồn tại']);
         }
         $dataUpdate = [
             'name' => $data['name_edit'],
             'status' => $data['status']
         ];
         Log::info($dataUpdate);
-        $result = (new AdminCategory())->find($data['id'])->update($dataUpdate);
+        $result = (new AdminUnit())->find($data['id'])->update($dataUpdate);
         if($result) {
             return response()->json(['error' => 0, 'message' => 'Cập nhật thành công']);
         } else {
             return response()->json(['error' => 1, 'message' => 'Đã có lỗi xãy ra']);
         }
     }
-    public function deleteCategory(Request $request) {
+    public function deleteUnit(Request $request) {
         $ids = $request->ids;
         $arrID = explode(',', $ids);
         Log::info($arrID);
 
-        $result = (new AdminCategory())->destroy($arrID);
+        $result = (new AdminUnit())->destroy($arrID);
 
         if($result) {
             return response()->json(['error' => 0, 'message' => 'Xóa thành công']);
         } else {
             return response()->json(['error' => 1, 'message' => 'Đã có lỗi xãy ra']);
         }
-    }
-    public function getImport(){
-        return view('admin.cat.import_list_cat');
-    }
-    public function postImport(Request $request) {
-        $files = $request->file('excel_file');
-        dd($files);
     }
 }

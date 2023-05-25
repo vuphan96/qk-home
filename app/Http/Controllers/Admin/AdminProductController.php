@@ -7,6 +7,7 @@ use App\Models\Admin\AdminProduct;
 use App\Models\Admin\AdminCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminProductRequest;
+use App\Models\Admin\AdminUnit;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Aler;
@@ -23,7 +24,8 @@ class AdminProductController extends Controller
     public function createProduct()
     {
         $dataCategory = AdminCategory::get();
-        return view('admin.product.add', compact('dataCategory'));
+        $dataUnit= AdminUnit::get();
+        return view('admin.product.add', compact('dataCategory', 'dataUnit'));
     }
     public function postCreateProduct(AdminProductRequest $request)
     {

@@ -18,7 +18,7 @@
             <a href="{{route('admin-dashboard')}}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
             <a href="{{route('admin.cat.index')}}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Danh mục</a>
             <a href="{{route('admin.product.index')}}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Sản phẩm</a>
-            <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Đơn vị</a>
+            <a href="{{route('admin.unit.index')}}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Đơn vị</a>
             <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Bán hàng</a>
             <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Đơn hàng</a>
             <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Lịch sử</a>

@@ -66,9 +66,9 @@
                             <label for="floatingSelect">Đơn vị &nbsp;<span class="form-error">*</span></label>
                             <select class="form-select form-select-lg" aria-label=".form-select-lg example" id="product_unit" name="product_unit">
                                 <option disabled selected hidden>Chọn đơn vị</option>
-                                <option value="1">Bộ</option>
-                                <option value="2">Cái</option>
-                                <option value="3">Hộp</option>
+                                @foreach($dataUnit as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
                             </select>
                             <span class="form-text form-error">
                                 {{ $errors->first('product_unit') }}

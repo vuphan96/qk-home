@@ -7,26 +7,22 @@ use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdminCategory extends Model
+class AdminUnit extends Model
 {
-    protected $table = 'category';
+    protected $table = 'phv_unit';
     protected $primaryKey = 'id';
     public $uarded = [];
     protected $fillable = ['name'];
 
-    public static function getListCategory($dataSearch)
+    public static function getListUnit($dataSearch)
     {
         $keyword = $dataSearch['keyword'];
-        $categoryList = new AdminCategory();
+        $unitList = new AdminUnit();
         if ($keyword) {
-            $categoryList = $categoryList->where('name', 'like', '%' . $keyword . '%');
+            $unitList = $unitList->where('name', 'like', '%' . $keyword . '%');
                 // ->orWhere('code', 'like', '%' . $keyword . '%');
         }
-        $categoryList = $categoryList->orderBy('id','DESC')->paginate(10);
-        return $categoryList;
+        $unitList = $unitList->orderBy('id','DESC')->paginate(10);
+        return $unitList;
     }
-    // public static function boot()
-    // {
-
-    // }
 }
